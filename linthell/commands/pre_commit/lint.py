@@ -105,6 +105,13 @@ def lint_cli(
 
     output = run_linter_and_get_output(linter_command, files, linter_output)
 
+    if linter_output == 'stderr':
+        if output:
+            print(output)
+            sys.exit(1)
+
+        sys.exit(0)
+
     digests = get_digests_from_baseline(Path(baseline_file))
     report = lint(digests, output, plugin)
     if report.errors:
